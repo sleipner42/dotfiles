@@ -40,8 +40,6 @@ ZSH_THEME="robbyrussell"
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 
-ZSH_TMUX_AUTOSTART="true"
-
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
@@ -72,14 +70,7 @@ ZSH_TMUX_AUTOSTART="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-	git
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	docker
-	docker-compose
-    	tmux
-)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -108,23 +99,21 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-#alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
-#eval "$(pyenv init -)"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/kristoffer/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/kristoffer/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/Users/kristoffer/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/kristoffer/miniforge3/bin:$PATH"
-    fi
+# rosetta terminal setup
+if [ $(arch) = "i386" ]; then
+    alias brew86="/usr/local/bin/brew"
+    alias pyenv86="arch -x86_64 pyenv"
 fi
-unset __conda_setup
-# <<< conda initialize <<<
-alias ssh='env TERM=xterm-256color ssh'
-export AWS_PROFILE="cppib-agl"
 
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export TERM=xterm
+alias dcs="docker compose"
